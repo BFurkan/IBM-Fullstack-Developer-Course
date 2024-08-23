@@ -1,0 +1,36 @@
+pip install virtualenv
+virtualenv djangoenv
+source djangoenv/bin/activate
+pip install -r requirements.txt
+
+
+
+python3 manage.py makemigrations
+
+python3 manage.py migrate
+
+
+FullStack Django Development --- Django Admin and exercise good for Django admin database
+
+
+
+Lab 3
+
+pip install --upgrade distro-info
+pip3 install --upgrade pip==23.2.1
+pip install virtualenv
+virtualenv djangoenv
+source djangoenv/bin/activate
+pip install -U -r requirements.txt
+
+
+python3 manage.py makemigrations
+python3 manage.py migrate
+
+
+Migrations are Django's way of propagating changes you make to your models (adding a field, deleting a model, etc.) into your database schema. They are designed to be mostly automatic, but you will need to know when to make migrations, when to run them, and the common problems you might run into. There are several commands which you will use to interact with migrations and Django's handling of database schema:
+
+migrate, which is responsible for applying and unapplying migrations
+makemigrations, which is responsible for creating new migrations based on the changes you have made to your models
+sqlmigrate, which displays the SQL statements for a migration
+showmigrations, which lists a project's migrations and their status

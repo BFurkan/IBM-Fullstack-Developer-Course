@@ -1,0 +1,82 @@
+Introduction to Kubernetes
+
+Use the kubectl CLI
+Create a Kubernetes Pod
+Create a Kubernetes Deployment
+Create a ReplicaSet that maintains a set number of replicas
+Witness Kubernetes load balancing in action
+
+
+for …do	Runs a for command multiple times as specified.
+kubectl apply	Applies a configuration to a resource.
+kubectl config get-clusters	Displays clusters defined in the kubeconfig.
+kubectl config get-contexts	Displays the current context.
+kubectl create	Creates a resource.
+kubectl delete	Deletes resources.
+kubectl describe	Shows details of a resource or group of resources.
+kubectl expose	Exposes a resource to the internet as a Kubernetes service.
+kubectl get	Displays resources.
+kubectl get pods	Lists all the Pods.
+kubectl get pods -o wide	Lists all the Pods with details.
+kubectl get deployments	Lists the deployments created.
+kubectl get services	Lists the services created.
+kubectl proxy	Creates a proxy server between a localhost and the Kubernetes API server.
+kubectl run	Creates and runs a particular image in a pod.
+kubectl version	Prints the client and server version information.
+kubectl version for version and installation check
+
+---------------------------------------------------------------------
+
+kubectl config get-clusters  for configuration
+
+kubectl config get-contexts context is a group of access parameters, including a cluster, a user, and a namespace.
+
+kubectl get pods List all the Pods in your namespace.
+
+kubectl get pods -o wide wide option for the output to get more details about the resource.
+
+kubectl delete pod hello-world
+
+kubectl describe pod hello-world
+
+kubectl apply -f hello-world-apply.yaml
+
+kubectl get deployments
+
+With declarative management, we did not tell Kubernetes which actions to perform. Instead, kubectl inferred that this Deployment needed to be created. If you delete a Pod now, a new one will be created in its place to maintain three replicas.
+
+kubectl delete pod <pod_name> && kubectl get pods
+
+kubectl expose deployment/hello-world 
+
+In order to access the application, we have to expose it to the internet using a Kubernetes Service.
+
+kubectl get services
+
+Since the cluster IP is not accessible outside of the cluster, we need to create a proxy. Note that this is not how you would make an application externally accessible in a production scenario. Run this command in the new terminal window since your environment variables need to be accessible in the original window for subsequent commands.
+
+--------------------------------------------------------------------------------------------------
+
+kubectl proxy
+
+curl -L localhost:8001/api/v1/namespaces/sn-labs-$USERNAME/services/hello-world/proxy
+
+for i in `seq 10`; do curl -L localhost:8001/api/v1/namespaces/sn-labs-$USERNAME/services/hello-world/proxy; done
+
+export MY_NAMESPACE=sn-labs-$USERNAME  Export your namespace as an environment variable so that it can be used in subsequent commands.
+
+
+docker build -t us.icr.io/$MY_NAMESPACE/"File Name":1 . && docker push us.icr.io/$MY_NAMESPACE/"File Name" :1
+
+
+kubectl run hello-world --image us.icr.io/$MY_NAMESPACE/hello-world:1 --overrides='{"spec":{"template":{"spec":{"imagePullSecrets":[{"name":"icr"}]}}}}'
+
+
+The --overrides option here enables us to specify the needed credentials to pull this image from IBM Cloud Container Registry. Note that this is an imperative command, as we told Kubernetes explicitly what to do: run hello-world.
+
+
+Create a Pod with imperative object configuration
+
+kubectl create -f hello-world-create.yaml Imperatively create a Pod using the provided configuration file.
+
+
